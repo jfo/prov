@@ -1,0 +1,4 @@
+server {
+	root /home/ubuntu/rubykssinatra/public;
+	passenger_enabled on;
+}
