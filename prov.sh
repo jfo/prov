@@ -11,7 +11,7 @@ chmod 600 /etc/apt/sources.list.d/passenger.list
 apt-get update
 
 # install packages
-apt-get -y install nginx-extras passenger php5-fpm ruby git
+apt-get -y install nginx-extras passenger ruby
 
 sed -i s/#\ passenger/passenger/g /etc/nginx/nginx.conf
 
@@ -20,32 +20,22 @@ git clone http://github.com/urthbound/rubykssinatra /home/ubuntu/rubykssinatra
 
 gem install bundle
 
-cd /home/ubuntu/rubykssinatra 
+cd /home/ubuntu/rubykssinatra
 bundle install
 cd -
 
-pwd
+rm /etc/nginx/sites-enabled/default
+cp ./rubykssinatra /etc/nginx/sites-enabled/
 
-cp ./rubykssinatra /etc/nginx/sites-enabled/default
-service nginx restart
-
-
-
-
-
-
-
-
-
-apt-get update
 # install packages
 apt-get -y install nginx-extras php5-fpm git
-sudo apt-get -y install php5-common php5-cli mysql-server php5-mysql
+sudo apt-get -y install php5-common php5-cli php5-mysql
+sudo apt-get -q -y install mysql-server
 
 rm -rf /home/ubuntu/wp
 su - ubuntu -c git clone http://github.com/wordpress/wordpress /home/ubuntu/wp
 
-cp ./wp /etc/nginx/sites-enabled/default
+cp ./wp /etc/nginx/sites-enabled/
 service nginx restart
 
 # don't forget to create a database as root called "wordpress" in the mysql bits
