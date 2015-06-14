@@ -14,9 +14,4 @@
 
 - name: Install nginx configuration file
   copy: src=static dest=/etc/nginx/sites-enabled/static
-  register: nginx_conf_install
-
-- name: Restart nginx
-  service: name=nginx state=restarted
-  when: nginx_conf_install.changed
-
+  notify: restart nginx
