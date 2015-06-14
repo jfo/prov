@@ -11,7 +11,7 @@ chmod 600 /etc/apt/sources.list.d/passenger.list
 apt-get update
 
 # install packages
-apt-get -y install nginx-extras passenger ruby
+apt-get -y install nginx-extras passenger ruby git
 
 sed -i s/#\ passenger/passenger/g /etc/nginx/nginx.conf
 
@@ -28,12 +28,12 @@ rm /etc/nginx/sites-enabled/default
 cp ./rubykssinatra /etc/nginx/sites-enabled/
 
 # install packages
-apt-get -y install nginx-extras php5-fpm git
+apt-get -y install php5-fpm
 sudo apt-get -y install php5-common php5-cli php5-mysql
 sudo apt-get -q -y install mysql-server
 
 rm -rf /home/ubuntu/wp
-su - ubuntu -c git clone http://github.com/wordpress/wordpress /home/ubuntu/wp
+git clone http://github.com/wordpress/wordpress /home/ubuntu/wp
 
 cp ./wp /etc/nginx/sites-enabled/
 service nginx restart
