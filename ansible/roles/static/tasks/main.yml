@@ -1,0 +1,22 @@
+---
+- name: Create project directory
+  file: path=/var/static state=directory
+
+- name: Herlo Werld
+  copy: src=index.html dest=/var/static/index.html
+
+- name: Install apt-packages.
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items: system_packages
+
+- name: Remove default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: Install nginx configuration file
+  copy: src=static dest=/etc/nginx/sites-enabled/static
+  register: nginx_conf_install
+
+- name: Restart nginx
+  service: name=nginx state=restarted
+  when: nginx_conf_install.changed
+

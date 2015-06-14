@@ -1,0 +1,5 @@
+---
+- hosts: fun_server_whatever
+  sudo: true
+  roles:
+    - static

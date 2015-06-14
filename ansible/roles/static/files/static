@@ -1,0 +1,5 @@
+server {
+    listen 1000;
+    root /var/static;
+    index index.html;
+    }
