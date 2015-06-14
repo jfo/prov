@@ -1,4 +1,5 @@
 server {
+        listen 1001;
 	root /home/ubuntu/rubykssinatra/public;
 	passenger_enabled on;
 }
