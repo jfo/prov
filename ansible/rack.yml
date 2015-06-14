@@ -4,4 +4,4 @@
   handlers:
     - include: handlers/main.yml
   roles:
-    - static
+    - rack

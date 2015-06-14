@@ -1,0 +1,36 @@
+---
+- name: apt-key
+  apt_key:
+    keyserver: "keyserver.ubuntu.com"
+    id: "561F9B9CAC40B2F7"
+
+- name: Add passenger package
+  lineinfile:
+    dest: "/etc/apt/sources.list.d/passenger.list"
+    line: "deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main"
+    create: yes
+    owner: root
+    mode: 600
+
+- name: Install apt-packages.
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items: system_packages
+
+- name: Use sed
+  shell: sed -i s/#\ passenger/passenger/g /etc/nginx/nginx.conf
+
+- name: Create project directory
+  file: path=/var/rack state=directory
+
+- name: Clone application
+  git: repo="https://github.com/urthbound/rubykssinatra.git" dest=/var/rack
+
+- name: Bundle install for rubyks
+  command: bundle install chdir=/var/rack
+
+- name: Remove default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: Install nginx configuration file
+  copy: src=rack dest=/etc/nginx/sites-enabled/rack
+  notify: restart nginx

@@ -1,0 +1,9 @@
+---
+system_packages:
+  - nginx-extras
+  - git
+  - apt-transport-https
+  - ca-certificates
+  - passenger
+  - ruby
+  - bundler
