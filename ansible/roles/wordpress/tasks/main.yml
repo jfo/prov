@@ -1,0 +1,23 @@
+---
+- name: Install apt-packages.
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items: system_packages
+
+- name: Create project directory
+  file: path=/var/wordpress state=directory
+
+- name: Clone fresh wordpress install
+  git: repo="https://github.com/WordPress/WordPress.git" dest=/var/wordpress
+
+- name: Remove default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: Install nginx configuration file
+  copy: src=wordpress dest=/etc/nginx/sites-enabled/wordpress
+  notify: restart nginx
+
+- name: add db user
+  mysql_user: name=wordpress password=password priv="*.*:ALL" state=present
+
+- name: Add db
+  mysql_db: name=wordpress state=present

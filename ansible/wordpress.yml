@@ -1,0 +1,7 @@
+---
+- hosts: fun_server_whatever
+  sudo: true
+  handlers:
+    - include: handlers/main.yml
+  roles:
+    - wordpress
